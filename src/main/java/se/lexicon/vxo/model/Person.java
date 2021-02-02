@@ -1,9 +1,8 @@
 package se.lexicon.vxo.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.Objects;
 
 public class Person implements Serializable {
@@ -12,6 +11,7 @@ public class Person implements Serializable {
     private String lastName;
     private LocalDate dateOfBirth;
     private Gender gender;
+    private final double Age;
 
     public Person(int personId, String firstName, String lastName, LocalDate dateOfBirth, Gender gender) {
         this.personId = personId;
@@ -19,9 +19,24 @@ public class Person implements Serializable {
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
         this.gender = gender;
+        this.Age = ageCounter();
+    }
+    private double ageCounter(){
+        LocalDate birthDate = this.dateOfBirth;
+        LocalDate now = LocalDate.now();
+        Period p = Period.between(birthDate, now);
+        double age = p.getYears();
+        return age;
+
     }
 
-    public Person(){}
+    public double getAge() {
+        return Age;
+    }
+
+    public Person(){
+        Age = ageCounter();
+    }
 
     public int getPersonId() {
         return personId;
